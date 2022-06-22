@@ -79,16 +79,16 @@ class Game
 
 end
 
-game = Game.new
+# game = Game.new
 # king_b1 = game.board.set_location([1, 1], Pawn.new(game.board, [1, 1], :white, [1, 1]))
 # king_b2 = game.board.set_location([6, 2], Pawn.new(game.board, [6, 2], :black, [6, 2]))
 # king_w1 = game.board.set_location([6, 3], Pawn.new(game.board, [6, 3], :white, [6, 3]))
 # king_w1 = game.board.set_location([3, 3], Pawn.new(game.board, [3, 3], :black, [3, 3]))
 # king_w1 = game.board.set_location([3, 2], Pawn.new(game.board, [3, 2], :black, [3, 2]))
 # king_w1 = game.board.set_location([3, 1], Pawn.new(game.board, [3, 1], :black, [3, 1]))
-game.create_players
-game.create_board
-game.player_turns
+# game.create_players
+# game.create_board
+# game.player_turns
 # game.player_move
 # game.player_move
 # game.player_move
