@@ -1,5 +1,5 @@
 class Board
-  attr_reader :grid, :letters, :numbers
+  attr_reader :grid, :letters, :numbers, :white_king, :black_king
   attr_accessor :en_passant_location, :en_passant_turn, :turn, :en_passant_piece
 
   def initialize
@@ -56,22 +56,29 @@ class Board
     selected_piece.promotion if selected_piece.respond_to?(:promotion)
   end
 
-  def check?
-    white_king = nil
-    black_king = nil
+  def get_kings
     grid.each do |row|
       row.each do |position|
-        next if position.is_a?(Empty)
-        white_king = position if position.is_a?(King) && position.color == :white
-        black_king = position if position.is_a?(King) && position.color == :black
-        return position.available_moves.any? { |moves| moves ==  white_king.location} if position.color == :black && white_king
-        return position.available_moves.any? { |moves| moves ==  black_king.location} if position.color == :white && black_king
+        @white_king = position if position.is_a?(King) && position.color == :white
+        @black_king = position if position.is_a?(King) && position.color == :black
       end
     end
   end
 
+  def check
+    get_kings
+    grid.each do |row|
+      row.each do |position|
+        next if position.is_a?(Empty)
+        return white_king if position.available_moves.any? { |moves| moves ==  white_king.location && position.enemy?(white_king) }
+        return black_king if position.available_moves.any? { |moves| moves ==  black_king.location && position.enemy?(black_king)}
+      end
+    end
+    nil
+  end
+
   def checkmate?
-    return false unless check? == true
+    return false unless check == white_king || check == black_king
     
     #check is true and any available move for the king
   end
