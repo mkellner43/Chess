@@ -65,6 +65,18 @@ class Board
     end
   end
 
+  def get_rooks
+    rook_one = nil
+    rook_two = nil
+    grid.each do |row|
+      row.each do |position|
+        rook_one = position if position.is_a?(Rook) && position.color == color unless rook_one
+        rook_two = position.is_a?(Rook) && position.color == color
+      end
+    end
+    [rook_one, rook_two]
+  end
+
   def check
     get_kings
     grid.each do |row|
@@ -77,10 +89,19 @@ class Board
     nil
   end
 
-  def checkmate?
-    return false unless check == white_king || check == black_king
-    
-    #check is true and any available move for the king
+  def checkmate
+    return false if check == nil
+    king = check 
+    original_location = king.location
+    result = king.available_moves.any? do |moves| 
+      king.location = moves
+      check == nil
+    end
+    king.location = original_location
+    return king unless result
+    nil
   end
+
+  #if result true its not in checkmate 
 
 end
