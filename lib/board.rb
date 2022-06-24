@@ -1,6 +1,6 @@
 class Board
   attr_reader :grid, :letters, :numbers, :white_king, :black_king
-  attr_accessor :en_passant_location, :en_passant_turn, :turn, :en_passant_piece
+  attr_accessor :en_passant_location, :en_passant_turn, :turn, :en_passant_piece, :track_moves
 
   def initialize
     @grid = Array.new(8) { Array.new(8, Empty.new) }
@@ -10,6 +10,7 @@ class Board
     @en_passant_location = nil
     @en_passant_piece = nil
     @turn = 1
+    @track_moves = []
   end
 
   def set_location(loc, piece)
@@ -54,6 +55,7 @@ class Board
     en_passant_piece.take_en_passant(move_to) if en_passant_location
     set_location(move_to, selected_piece)
     selected_piece.promotion if selected_piece.respond_to?(:promotion)
+    track_moves << move_to
   end
 
   def get_kings
@@ -63,18 +65,6 @@ class Board
         @black_king = position if position.is_a?(King) && position.color == :black
       end
     end
-  end
-
-  def get_rooks
-    rook_one = nil
-    rook_two = nil
-    grid.each do |row|
-      row.each do |position|
-        rook_one = position if position.is_a?(Rook) && position.color == color unless rook_one
-        rook_two = position.is_a?(Rook) && position.color == color
-      end
-    end
-    [rook_one, rook_two]
   end
 
   def check

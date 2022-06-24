@@ -13,5 +13,9 @@ class Piece
     return unless piece.is_a?(Piece)
     piece.color == color ? false : true
   end
+  
+  def original_location?
+    location == previous_location
+  end
 
 end
