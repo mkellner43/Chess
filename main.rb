@@ -47,10 +47,10 @@ class Game
     loop do
       player_move(player1)
       board.turn += 1
-      return player1 if win?
+      return puts "#{player1} wins!" if win?
       player_move(player2)
       board.turn += 1
-      return player2 if win?
+      return puts "#{player2} wins!" if win?
     end
   end
 
@@ -58,7 +58,9 @@ class Game
   def player_move(player)
     display_board.render
     puts "#{player.name} select your piece"
-    board.move_piece(player_input(player))
+    selected_piece, move_to = player_input(player)
+    return selected_piece.castling if castling
+    board.move_piece([selected_piece, move_to])
   end
 
   def player_input(player)
@@ -74,15 +76,21 @@ class Game
   end
 
   def win?
-    false
+    return true if board.checkmate
+    puts 'You are now in check! Be careful with your next move' if board.check
   end
 
 end
 
 # game = Game.new
-# king_b1 = game.board.set_location([1, 1], Pawn.new(game.board, [1, 1], :white, [1, 1]))
-# king_b2 = game.board.set_location([6, 2], Pawn.new(game.board, [6, 2], :black, [6, 2]))
-# king_w1 = game.board.set_location([6, 3], Pawn.new(game.board, [6, 3], :white, [6, 3]))
+# board = BoardRender.new(game.board)
+# king = game.board.set_location([0, 4], King.new(game.board, [0, 4], :white, [0, 4]))
+# rook = game.board.set_location([0, 0], Rook.new(game.board, [0, 0], :white, [0, 0]))
+# rook = game.board.set_location([0, 7], Pawn.new(game.board, [0, 7], :white, [0, 7]))
+# board.render
+# king_piece = game.board.get_piece([0, 4])
+# king_piece.castling
+# board.render
 # king_w1 = game.board.set_location([3, 3], Pawn.new(game.board, [3, 3], :black, [3, 3]))
 # king_w1 = game.board.set_location([3, 2], Pawn.new(game.board, [3, 2], :black, [3, 2]))
 # king_w1 = game.board.set_location([3, 1], Pawn.new(game.board, [3, 1], :black, [3, 1]))
