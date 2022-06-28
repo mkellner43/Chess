@@ -39,7 +39,7 @@ class Board
     move_to_location, object = exchange(move_to)
     return unless object.is_a?(Empty) || piece.enemy?(object)
     piece.en_passant(move_to_location) if piece.respond_to?(:en_passant)
-    move_to_location if piece.available_moves.any? { |move| move == move_to_location }
+    move_to_location if piece.available_moves.any? { |move| move == move_to_location } && piece.wouldnt_put_self_in_check(move_to_location)
   end
 
   def exchange(input)
@@ -81,7 +81,7 @@ class Board
 
   def checkmate
     return false if check == nil
-    king = check 
+    king = check
     original_location = king.location
     result = king.available_moves.any? do |moves| 
       king.location = moves

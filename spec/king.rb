@@ -127,55 +127,98 @@ describe King do
         expect(result).to eq rook2
       end
     end
-
-    describe '#make_castling_move' do
-      let(:king) { King.new(board, [0, 4], :white, [0, 4]) }
-      let(:rook) { Rook.new(board, [0, 7], :white, [0, 7]) }
-      let(:rook2) { Rook.new(board, [0, 0], :white, [0, 0]) }
-
-      context 'moves rook and king to proper castling location' do
-
-        before do
-          board.set_location([0, 7], rook)
-          board.set_location([0, 0], rook2)
-          board.set_location([0, 4], king)
-        end
-
-        it 'returns nested array [[0, 3], [0, 2]]' do
-          answer = [[0, 3], [0, 2]]
-          result = king.make_castling_move(rook2)
-          expect(result).to eq answer
-        end
-
-        it 'returns nested array [[0, 5],[0, 6]]' do
-          answer = [[0, 5], [0, 6]]
-          result = king.make_castling_move(rook)
-          expect(result).to eq answer
-        end
-      end
-    end
-
-    describe '#castling' do
-      let(:king) { King.new(board, [0, 3], :white, [0, 3]) }
-      let(:rook) { Rook.new(board, [0, 7], :white, [0, 7]) }
-      let(:rook2) { Rook.new(board, [0, 0], :white, [0, 0]) }
-      context 'when left rook is selected' do
-
-        before do
-          board.set_location([0, 7], rook)
-          board.set_location([0, 0], rook2)
-          board.set_location([0, 3], king)
-        end
-
-        it 'correctly castles towards left rook' do
-          allow(king).to receive(:gets).and_return('y', '8a')
-          result = king.castling
-          expect(result).to be true
-          board_render.render
-        end
-      end
-    end
-
   end
 
+  describe '#make_castling_move' do
+    let(:king) { King.new(board, [0, 4], :white, [0, 4]) }
+    let(:rook) { Rook.new(board, [0, 7], :white, [0, 7]) }
+    let(:rook2) { Rook.new(board, [0, 0], :white, [0, 0]) }
+
+    context 'moves rook and king to proper castling location' do
+
+      before do
+        board.set_location([0, 7], rook)
+        board.set_location([0, 0], rook2)
+        board.set_location([0, 4], king)
+      end
+
+      it 'returns nested array [[0, 3], [0, 2]]' do
+        answer = [[0, 3], [0, 2]]
+        result = king.make_castling_move(rook2)
+        expect(result).to eq answer
+      end
+
+      it 'returns nested array [[0, 5],[0, 6]]' do
+        answer = [[0, 5], [0, 6]]
+        result = king.make_castling_move(rook)
+        expect(result).to eq answer
+      end
+    end
+  end
+
+  describe '#castling' do
+    let(:king) { King.new(board, [0, 3], :white, [0, 3]) }
+    let(:rook) { Rook.new(board, [0, 7], :white, [0, 7]) }
+    let(:rook2) { Rook.new(board, [0, 0], :white, [0, 0]) }
+    context 'when left rook is selected' do
+
+      before do
+        board.set_location([0, 7], rook)
+        board.set_location([0, 0], rook2)
+        board.set_location([0, 3], king)
+      end
+
+      it 'correctly castles towards left rook' do
+        allow(king).to receive(:gets).and_return('y', '8a')
+        result = king.castling
+        expect(result).to be true
+        board_render.render
+      end
+    end
+  end
+
+  describe '#wouldnt_put_self_in_check' do
+
+    let(:king) { King.new(board, [0, 0], :white, [0, 0]) }
+    let(:king2) { King.new(board, [7, 4], :black, [7, 4]) }
+    let(:rook) { Rook.new(board, [0, 3], :white, [0, 3]) }
+    let(:rook2) { Rook.new(board, [1, 0], :white, [1, 0]) }
+
+    context 'if move would put self in check' do
+      
+
+      before do
+        board.set_location([0, 0], king)
+        board.set_location([6, 5], king2)
+        board.set_location([0, 3], rook)
+        board.set_location([1, 0], rook2)
+        board.set_location([7, 0], Queen.new(board, [0, 7], :black, [7, 0]))
+      end
+
+      it 'returns false' do
+        board_render.render
+        possible_location = [1, 1]
+        result = rook2.wouldnt_put_self_in_check(possible_location)
+        expect(result).to be false
+      end
+    end
+
+    context 'if move would not put self in check' do
+
+      before do
+        board.set_location([0, 0], king)
+        board.set_location([6, 5], king2)
+        board.set_location([0, 3], rook)
+        board.set_location([1, 0], rook2)
+        board.set_location([7, 0], Queen.new(board, [0, 7], :black, [7, 0]))
+      end
+
+      it 'returns true' do
+        board_render.render
+        possible_location = [0, 1]
+        result = rook.wouldnt_put_self_in_check(possible_location)
+        expect(result).to be true
+      end
+    end
+  end
 end

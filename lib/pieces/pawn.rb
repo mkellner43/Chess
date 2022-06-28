@@ -105,5 +105,22 @@ class Pawn < Piece
       input = gets.chomp
       return input if promote_data.any? { |k, v| k == input.downcase }
     end
-  end 
+  end
+
+  def wouldnt_put_self_in_check(possible_location)
+    board.get_kings
+    color == :black ? king = board.black_king : king = board.white_king
+    original_location = location
+    move_piece_to_check_validity(location, possible_location)
+    result = board.check
+    move_piece_to_check_validity(possible_location, location)
+    return false if result == king
+    true
+  end
+
+  def move_piece_to_check_validity(previous_loc, possible_location)
+    board.set_previous_location(previous_loc, Empty.new)
+    board.set_location(possible_location, self)
+  end
+
 end

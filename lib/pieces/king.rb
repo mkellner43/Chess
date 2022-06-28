@@ -30,6 +30,7 @@ class King < Piece
     return unless usable_rooks.length > 0
     rooks = []
     usable_rooks.each { |rook| rooks << rook if row_available_castling(rook) }
+    return unless rooks.length > 1
     return unless wants_to_castle?
     return unless selected_rook = valid_rook(rooks)
     rook_location, king_location = make_castling_move(selected_rook)
