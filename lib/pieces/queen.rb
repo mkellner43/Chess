@@ -24,5 +24,4 @@ class Queen < Piece
   def move_distance
     7
   end
-
 end

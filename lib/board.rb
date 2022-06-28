@@ -30,13 +30,15 @@ class Board
   end
 
   def valid_piece(input)
-    location, piece = exchange(input)
+    return input if input == 'save' || input == 'load'
+    location, piece = exchange(input.chars)
     return unless piece.is_a?(Piece)
     piece if piece.location.all? { |value| value.between?(0, 7) }
   end
 
   def valid_move(move_to, piece)
-    move_to_location, object = exchange(move_to)
+    return move_to if move_to == 'save' || move_to == 'load'
+    move_to_location, object = exchange(move_to.chars)
     return unless object.is_a?(Empty) || piece.enemy?(object)
     piece.en_passant(move_to_location) if piece.respond_to?(:en_passant)
     move_to_location if piece.available_moves.any? { |move| move == move_to_location } && piece.wouldnt_put_self_in_check(move_to_location)
@@ -91,7 +93,4 @@ class Board
     return king unless result
     nil
   end
-
-  #if result true its not in checkmate 
-
 end

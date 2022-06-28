@@ -122,5 +122,4 @@ class Pawn < Piece
     board.set_previous_location(previous_loc, Empty.new)
     board.set_location(possible_location, self)
   end
-
 end

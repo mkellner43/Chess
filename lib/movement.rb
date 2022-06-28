@@ -40,14 +40,4 @@ module Movement
     board.set_previous_location(previous_loc, Empty.new)
     board.set_location(possible_location, self)
   end
-
-  # def move_piece(input)
-  #   selected_piece, move_to = input
-  #   set_previous_location(selected_piece.location, Empty.new)
-  #   en_passant_piece.take_en_passant(move_to) if en_passant_location
-  #   set_location(move_to, selected_piece)
-  #   selected_piece.promotion if selected_piece.respond_to?(:promotion)
-  #   track_moves << move_to
-  # end
-
 end

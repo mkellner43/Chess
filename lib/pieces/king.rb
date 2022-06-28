@@ -57,7 +57,6 @@ class King < Piece
       rooks.each { |rook| return piece if rook == piece }
       puts "select a rook that is in the original location and there are no pieces\nbetween it and your king. If you would like to cancel castling type cancel."
     end
-
   end
 
   def wants_to_castle?
@@ -97,6 +96,4 @@ class King < Piece
     row, column = location
     rook_column > column ? -1 : 1
   end
-
-
 end

@@ -17,5 +17,4 @@ class Piece
   def original_location?
     location == previous_location
   end
-
 end
