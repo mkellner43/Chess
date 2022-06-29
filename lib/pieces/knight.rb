@@ -2,7 +2,7 @@ require_relative 'piece'
 require_relative '../movement'
 
 class Knight < Piece
-include Movement
+  include Movement
 
   def to_s
     color == :black ? "\u265e" : "\u2658"

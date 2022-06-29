@@ -28,12 +28,12 @@ class Game
       board.set_location([0, n], Bishop.new(board, [0, n], :black, [0, n]))
       board.set_location([7, n], Bishop.new(board, [7, n], :white, [7, n]))
     end
-      board.set_location([0, 3], Queen.new(board, [0, 3], :black, [0, 3]))
-      board.set_location([7, 4], Queen.new(board, [7, 4], :white, [7, 4]))
-      board.set_location([0, 4], King.new(board, [0, 4], :black, [0, 4]))
-      board.set_location([7, 3], King.new(board, [7, 3], :white, [7, 3]))
+    board.set_location([0, 3], Queen.new(board, [0, 3], :black, [0, 3]))
+    board.set_location([7, 4], Queen.new(board, [7, 4], :white, [7, 4]))
+    board.set_location([0, 4], King.new(board, [0, 4], :black, [0, 4]))
+    board.set_location([7, 3], King.new(board, [7, 3], :white, [7, 3]))
 
-      display_board.render
+    display_board.render
   end
 
   def save_or_load(input)
@@ -59,6 +59,7 @@ class Game
       player_move(player1) if whose_turn == player1
       incriment(player1)
       return puts text(:won, player1.name) if win?
+
       player_move(player2) if whose_turn == player2
       incriment(player2)
       return puts text(:won, player2.name) if win?
@@ -87,11 +88,15 @@ class Game
     loop do
       selected_piece = board.valid_piece(gets.chomp)
       return save_or_load(selected_piece) if selected_piece.is_a?(String)
+
       puts text(:select_move) if selected_piece
-      selected_piece.is_a?(Piece) && selected_piece.color == player.color ? move_to = board.valid_move(gets.chomp, selected_piece) : nil
+      if selected_piece.is_a?(Piece) && selected_piece.color == player.color
+        move_to = board.valid_move(gets.chomp,
+                                   selected_piece)
+      end
       return save_or_load(move_to) if move_to.is_a?(String)
       return [selected_piece, move_to] if move_to
-      
+
       display_board.render
       puts text(:invalid_move)
     end
@@ -100,6 +105,7 @@ class Game
   def win?
     board.get_kings
     return true if board.checkmate
+
     checked_piece = board.check
     puts text(:in_check, checked_piece) if checked_piece
   end

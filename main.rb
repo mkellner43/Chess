@@ -4,10 +4,10 @@ include Message
 
 def game_type
   loop do
-  puts text(:load_or_new)
-  input = gets.chomp
-  return new_game if input.downcase == 'new'
-  return load_this_game if input.downcase == 'load'
+    puts text(:load_or_new)
+    input = gets.chomp
+    return new_game if input.downcase == 'new'
+    return load_this_game if input.downcase == 'load'
   end
 end
 
@@ -22,9 +22,9 @@ end
 
 def replay?
   loop do
-  puts text(:replay)
-  input = gets.chomp
-  return game_type if input == 'y' || input == 'n'
+    puts text(:replay)
+    input = gets.chomp
+    return game_type if %w[y n].include?(input)
   end
 end
 

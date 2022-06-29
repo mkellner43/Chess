@@ -24,8 +24,8 @@ module SaveFile
       puts text(:no_file)
       return load_this_game
     end
-      puts text(:game_loaded)
-      loaded_game.player_turns
+    puts text(:game_loaded)
+    loaded_game.player_turns
   end
 
   def file_list

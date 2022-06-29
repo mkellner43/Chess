@@ -1,14 +1,11 @@
 require_relative '../main'
 
 describe King do
-
   let(:board) { Board.new }
-  let(:board_render) {  BoardRender.new(board) }
+  let(:board_render) { BoardRender.new(board) }
 
   describe '#get_rooks_castling' do
-
     context 'when there are 2 rooks available for castling' do
-
       before do
         board.set_location([0, 7], Rook.new(board, [0, 7], :white, [0, 7]))
         board.set_location([0, 0], Rook.new(board, [0, 0], :white, [0, 0]))
@@ -24,10 +21,8 @@ describe King do
         expect(result).to eq [rook, rook2]
       end
     end
-  
 
     context 'when there is 1 rook available for castling' do
-
       before do
         board.set_location([0, 7], Rook.new(board, [0, 7], :white, [0, 7]))
         board.set_location([0, 0], Rook.new(board, [0, 0], :white, [0, 1]))
@@ -63,9 +58,7 @@ describe King do
   end
 
   describe '#row_available_castling' do
-
     context 'when row is available for castling' do
-
       before do
         board.set_location([0, 7], Rook.new(board, [0, 7], :white, [0, 7]))
         board.set_location([0, 0], Rook.new(board, [0, 0], :white, [0, 0]))
@@ -86,9 +79,8 @@ describe King do
     let(:king) { King.new(board, [0, 3], :white, [0, 3]) }
     let(:rook) { Rook.new(board, [0, 7], :white, [0, 7]) }
     let(:rook2) { Rook.new(board, [0, 0], :white, [0, 0]) }
-    
-    context 'when player responds y' do
 
+    context 'when player responds y' do
       it 'returns true' do
         allow(king).to receive(:gets).and_return('y')
         result = king.wants_to_castle?
@@ -97,11 +89,10 @@ describe King do
     end
 
     context 'when player responds n' do
-
       it 'returns false' do
-      allow(king).to receive(:gets).and_return('n')
-      result = king.wants_to_castle?
-      expect(result).to be false
+        allow(king).to receive(:gets).and_return('n')
+        result = king.wants_to_castle?
+        expect(result).to be false
       end
     end
   end
@@ -112,7 +103,6 @@ describe King do
     let(:rook2) { Rook.new(board, [0, 0], :white, [0, 0]) }
 
     context 'when player selects a valid rook' do
-
       before do
         board.set_location([0, 7], rook)
         board.set_location([0, 0], rook2)
@@ -135,7 +125,6 @@ describe King do
     let(:rook2) { Rook.new(board, [0, 0], :white, [0, 0]) }
 
     context 'moves rook and king to proper castling location' do
-
       before do
         board.set_location([0, 7], rook)
         board.set_location([0, 0], rook2)
@@ -161,7 +150,6 @@ describe King do
     let(:rook) { Rook.new(board, [0, 7], :white, [0, 7]) }
     let(:rook2) { Rook.new(board, [0, 0], :white, [0, 0]) }
     context 'when left rook is selected' do
-
       before do
         board.set_location([0, 7], rook)
         board.set_location([0, 0], rook2)
@@ -178,15 +166,12 @@ describe King do
   end
 
   describe '#wouldnt_put_self_in_check' do
-
     let(:king) { King.new(board, [0, 0], :white, [0, 0]) }
     let(:king2) { King.new(board, [7, 4], :black, [7, 4]) }
     let(:rook) { Rook.new(board, [0, 3], :white, [0, 3]) }
     let(:rook2) { Rook.new(board, [1, 0], :white, [1, 0]) }
 
     context 'if move would put self in check' do
-      
-
       before do
         board.set_location([0, 0], king)
         board.set_location([6, 5], king2)
@@ -204,7 +189,6 @@ describe King do
     end
 
     context 'if move would not put self in check' do
-
       before do
         board.set_location([0, 0], king)
         board.set_location([6, 5], king2)

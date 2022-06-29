@@ -1,5 +1,5 @@
 class Player
-attr_accessor :name, :color, :turns
+  attr_accessor :name, :color, :turns
 
   def initialize(color)
     @name = nil
@@ -8,8 +8,9 @@ attr_accessor :name, :color, :turns
   end
 
   def valid_name?(input)
-    loop do 
+    loop do
       return input if input.length > 0 && input =~ /\w+/
+
       input = gets.chomp
     end
   end

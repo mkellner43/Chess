@@ -8,12 +8,13 @@ class Piece
     @location = location
     @previous_location = previous_location
   end
-  
+
   def enemy?(piece)
     return unless piece.is_a?(Piece)
-    piece.color == color ? false : true
+
+    !(piece.color == color)
   end
-  
+
   def original_location?
     location == previous_location
   end

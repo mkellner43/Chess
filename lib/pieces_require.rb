@@ -1,6 +1,6 @@
-require_relative 'board.rb'
+require_relative 'board'
 require_relative 'messages'
-require_relative 'player.rb'
+require_relative 'player'
 require_relative 'board_render'
 require_relative 'pieces/pawn'
 require_relative 'movement'

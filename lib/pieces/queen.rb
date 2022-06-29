@@ -3,7 +3,7 @@ require_relative '../movement'
 
 class Queen < Piece
   include Movement
-  
+
   def to_s
     color == :black ? "\u265b" : "\u2655"
   end

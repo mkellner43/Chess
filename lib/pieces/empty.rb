@@ -1,7 +1,7 @@
 class Empty
   attr_reader :color
   attr_accessor :previous_location, :location
-  
+
   def initialize
     @color = nil
     @location = nil
@@ -9,7 +9,6 @@ class Empty
   end
 
   def to_s
-    " "
+    ' '
   end
 end
-
