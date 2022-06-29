@@ -48,7 +48,7 @@ class Game
 
   def create_players
     (1..2).each do |n|
-      puts "Player #{n}, what is your name?"
+      puts text(:your_name, n)
       player = instance_variable_get("@player#{n}")
       player.name = player.valid_name?(gets.chomp)
     end
@@ -58,10 +58,10 @@ class Game
     loop do
       player_move(player1) if whose_turn == player1
       incriment(player1)
-      return puts "#{player1.name} wins!" if win?
+      return puts text(:won, player1.name) if win?
       player_move(player2) if whose_turn == player2
       incriment(player2)
-      return puts "#{player2.name} wins!" if win?
+      return puts text(:won, player2.name) if win?
     end
   end
 
@@ -72,12 +72,10 @@ class Game
 
   def player_move(player)
     display_board.render
-    puts "#{player.name} select your piece"
+    puts text(:select_piece, player.name)
     selected_piece, move_to = player_input(player)
     selected_piece.castling if selected_piece.respond_to?(:castling) && selected_piece.castling
     board.move_piece([selected_piece, move_to])
-    puts player1.turns
-    puts player2.turns
   end
 
   def incriment(player)
@@ -89,13 +87,13 @@ class Game
     loop do
       selected_piece = board.valid_piece(gets.chomp)
       return save_or_load(selected_piece) if selected_piece.is_a?(String)
-      puts "#{player.name} select your move" if selected_piece
+      puts text(:select_move) if selected_piece
       selected_piece.is_a?(Piece) && selected_piece.color == player.color ? move_to = board.valid_move(gets.chomp, selected_piece) : nil
       return save_or_load(move_to) if move_to.is_a?(String)
       return [selected_piece, move_to] if move_to
       
       display_board.render
-      puts 'Invalid move, select your piece'
+      puts text(:invalid_move)
     end
   end
 
@@ -103,6 +101,6 @@ class Game
     board.get_kings
     return true if board.checkmate
     checked_piece = board.check
-    puts "#{checked_piece} is now in check! Be careful with your next move" if checked_piece
+    puts text(:in_check, checked_piece) if checked_piece
   end
 end

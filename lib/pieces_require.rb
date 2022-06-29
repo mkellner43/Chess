@@ -1,4 +1,5 @@
 require_relative 'board.rb'
+require_relative 'messages'
 require_relative 'player.rb'
 require_relative 'board_render'
 require_relative 'pieces/pawn'

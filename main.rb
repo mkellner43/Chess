@@ -1,10 +1,10 @@
 require_relative 'lib/game'
 include SaveFile
+include Message
 
 def game_type
   loop do
-  puts 'would you like to load a game or start a new game?'
-  puts "type 'load' to load and 'new' to start a new game"
+  puts text(:load_or_new)
   input = gets.chomp
   return new_game if input.downcase == 'new'
   return load_this_game if input.downcase == 'load'
@@ -22,7 +22,7 @@ end
 
 def replay?
   loop do
-  puts 'would you like to play again? (y/n)'
+  puts text(:replay)
   input = gets.chomp
   return game_type if input == 'y' || input == 'n'
   end

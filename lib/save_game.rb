@@ -2,28 +2,29 @@ require 'yaml'
 require_relative 'game'
 
 module SaveFile
+  include Message
   def save_this_game
-    puts 'what would you like to save your game as?'
+    puts text(:save)
     file_name = gets.chomp.to_s
     valid_file_name?(file_name)
     Dir.mkdir('saved_games') unless File.exist?('saved_games')
     File.open("saved_games/#{file_name}.yaml", 'w') { |f| f.write save_to_yaml }
-    puts 'game saved (;'
+    puts text(:saved)
     exit
   end
 
   def load_this_game
-    puts 'choose from one of the saved files : '
+    puts text(:choose_file)
     file_list
-    puts 'what is the name of your saved game?'
+    puts text(:saved_name)
     file_name = gets.chomp.to_s
     begin
       loaded_game = YAML.unsafe_load(File.read("saved_games/#{file_name}.yaml"))
     rescue Errno::ENOENT
-      puts 'no file found'
+      puts text(:no_file)
       return load_this_game
     end
-      puts 'game loaded (;'
+      puts text(:game_loaded)
       loaded_game.player_turns
   end
 
